@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    ## -- -- ##
+    'django.contrib.sites',
+    'core',
 
     ##-- allauth --##
     'allauth',
@@ -184,7 +189,7 @@ ROOT_URLCONF = 'my_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR / 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -255,6 +260,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = "core.CustomUser"
+
+
 AUTHENTICATION_BACKENDS = [
    
     'django.contrib.auth.backends.ModelBackend',
@@ -263,30 +271,64 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
+SITE_ID = 1
+
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '424348237311-r4lcciil6ojmqmmrbt825446r2bk51j6.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
-    },
-     "microsoft": {
-        "APPS": [
-            {
-                "client_id": "56be64aa-93cf-4b45-bb03-349243636d61",
-                "secret": "JOm8Q~sc5cWSCD8IjUAZCuxp1bg4vXdYrY2WLcSS",
-                "settings": {
-                    "tenant": "c3bfd8ab-c3a3-4e63-a918-1d48cf0b1534",
-                    # Optional: override URLs (use base URLs without path)
-                    "login_url": "https://login.microsoftonline.com",
-                    "graph_url": "https://graph.microsoft.com",
-                }
-            }
-        ]
+    # 'google': {
+    #     # For each OAuth based provider, either add a ``SocialApp``
+    #     # (``socialaccount`` app) containing the required client
+    #     # credentials, or list them here:
+    #     # 'APP': {
+    #     #     'client_id': '424348237311-r4lcciil6ojmqmmrbt825446r2bk51j6.apps.googleusercontent.com',
+    #     #     'secret': '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',
+    #     #     'key': ''
+    #     # },
+    #     'EMAIL_AUTHENTICATION': True,
+    #     'SCOPE': [
+    #         'profile',
+    #         'email',
+    #     ],
+    #     'AUTH_PARAMS': {
+    #         'access_type': 'online',
+    #     },
+    # },
+    # "microsoft": {
+    #     "APPS": [
+    #         {
+    #             "client_id": "56be64aa-93cf-4b45-bb03-349243636d61",
+    #             "secret": "JOm8Q~sc5cWSCD8IjUAZCuxp1bg4vXdYrY2WLcSS",
+    #             "settings": {
+    #                 "tenant": "c3bfd8ab-c3a3-4e63-a918-1d48cf0b1534",
+    #             }
+    #         }
+    #     ],
+    # },
+    'microsoft': {
+        'VERIFIED_EMAIL': True
     }
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_LOGIN_BY_CODE_ENABLED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+# ACCOUNT_LOGIN_METHODS = {
+#     "email",
+# }
+# ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED = True
+# ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+
+# MFA_SUPPORTED_TYPES = [
+#     "webauthn",
+#     "totp",
+#     "recovery_codes",
+# ]
+# MFA_PASSKEY_LOGIN_ENABLED = True
+# MFA_PASSKEY_SIGNUP_ENABLED = True
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
