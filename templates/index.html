@@ -4,5 +4,19 @@
 
 <h1 class="text-center my-5">Index</h1>
 
-<a href="{% url 'social-login' %}">Social login</a>
+<div class="card">
+    <div class="card-body">
+        <h3>Custom</h3>
+        <a href="{% url 'social-login' %}">Social login</a>
+    </div>
+    
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3>Allauth</h3>
+        <a href="{% url 'account_login' %}">Account login</a>
+    </div>
+</div>
+
 {% endblock content %}
